@@ -18,8 +18,9 @@ object Project1_app {
     //spark.sql("CREATE TABLE IF NOT EXISTS src(key INT, value STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY ‘,’ STORED AS TEXTFILE")
     //spark.sql("LOAD DATA LOCAL INPATH 'input/kv1.txt' INTO TABLE src")
     //spark.sql("CREATE TABLE IF NOT EXISTS src (key INT,value STRING) USING hive")
-    
+
     //when creating a new table, change newone# otherwise an error will appear that table already exists.
+    
     spark.sql("create table newone2(Beverage String, Branch String) row format delimited fields terminated by ','");
     spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_Branch.txt' INTO TABLE newone2")
     spark.sql("SELECT * FROM newone2").show()
