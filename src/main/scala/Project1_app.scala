@@ -31,14 +31,14 @@ object Project1_app {
     //spark.sql("create table Cons(Beverage String, Count Int) row format delimited fields terminated by ','");
     //spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_Conscount.txt' INTO TABLE Cons")
 
-    //==============Scenario 1======================
+    //============== Scenario 1 ======================
     /*
     println("Total Consumers in Branch1")
     spark.sql("SELECT SUM(Count) FROM Branches JOIN Cons ON Branches.Beverage = Cons.Beverage WHERE Branch = 'Branch1'").show(/*number of rows*/)
     println("Total Consumers in Branch2")
     spark.sql("SELECT SUM(Count) FROM Branches JOIN Cons ON Branches.Beverage = Cons.Beverage WHERE Branch = 'Branch2'").show(/*number of rows*/)
     */
-    //==============Scenario 2======================
+    //============== Scenario 2 ======================
     /*
     println("Most consumed beverage in Branch1")
     spark.sql("SELECT Branches.Beverage, SUM(Count) FROM Branches JOIN Cons ON Branches.Beverage = Cons.Beverage WHERE Branch = 'Branch1' GROUP BY Branches.Beverage ORDER BY SUM(Count) DESC").show(1)
@@ -47,5 +47,21 @@ object Project1_app {
     println("Average consumed beverage in Branch2")
     spark.sql("SELECT AVG(Consumed) AS Average FROM (SELECT Branches.Beverage, SUM(Count) AS Consumed FROM Branches JOIN Cons ON Branches.Beverage = Cons.Beverage WHERE Branch = 'Branch2' GROUP BY Branches.Beverage)").show()
     */
+    //============== Scenario 3 ======================
+    /*
+    println("Beverages available in Branch 1")
+    spark.sql("SELECT Beverage FROM Branches WHERE Branch = 'Branch1' GROUP BY Beverage").show()
+    println("Beverages available in Branch 8")
+    spark.sql("SELECT Beverage FROM Branches WHERE Branch = 'Branch8' GROUP BY Beverage").show(50)
+    println("Beverages available in Branch 10")
+    spark.sql("SELECT Beverage FROM Branches WHERE Branch = 'Branch10' GROUP BY Beverage").show()
+    */
+    println("Common Beverages in Branch 4 and Branch 7")
+    spark.sql("SELECT Beverage, Branch FROM Branches GROUP BY Beverage, Branch ORDER BY Branch").show()
+    //============== Scenario 4 ======================
+
+    //============== Scenario 5 ======================
+
+    //============== Scenario 6 - Future Query ======================
   }
 }
