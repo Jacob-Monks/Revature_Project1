@@ -39,13 +39,13 @@ object Project1_app {
     spark.sql("SELECT SUM(Count) FROM Branches JOIN Cons ON Branches.Beverage = Cons.Beverage WHERE Branch = 'Branch2'").show(/*number of rows*/)
     */
     //==============Scenario 2======================
+    /*
     println("Most consumed beverage in Branch1")
     spark.sql("SELECT Branches.Beverage, SUM(Count) FROM Branches JOIN Cons ON Branches.Beverage = Cons.Beverage WHERE Branch = 'Branch1' GROUP BY Branches.Beverage ORDER BY SUM(Count) DESC").show(1)
     println("Least consumed beverage in Branch2")
     spark.sql("SELECT Branches.Beverage, SUM(Count) FROM Branches JOIN Cons ON Branches.Beverage = Cons.Beverage WHERE Branch = 'Branch2' GROUP BY Branches.Beverage ORDER BY SUM(Count) ASC").show(1)
-    /*
     println("Average consumed beverage in Branch2")
-    spark.sql("SELECT * FROM")
+    spark.sql("SELECT AVG(Consumed) AS Average FROM (SELECT Branches.Beverage, SUM(Count) AS Consumed FROM Branches JOIN Cons ON Branches.Beverage = Cons.Beverage WHERE Branch = 'Branch2' GROUP BY Branches.Beverage)").show()
     */
   }
 }
