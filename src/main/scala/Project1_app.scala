@@ -21,10 +21,10 @@ object Project1_app {
 
     //when creating a new table, change the name of the table otherwise an error will appear that table already exists.
 
-    //table of Bev_Branch will be called Branch
+    //table of Bev_Branch will be called Branches
 
-    //spark.sql("create table Branch(Beverage String, Branch String) row format delimited fields terminated by ','");
-    //spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_Branch.txt' INTO TABLE Branch")
+    //spark.sql("create table Branches(Beverage String, Branch String) row format delimited fields terminated by ','");
+    //spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_Branch.txt' INTO TABLE Branches")
 
     //table of Bev_ConsCount will be called Cons
 
@@ -32,10 +32,20 @@ object Project1_app {
     //spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_Conscount.txt' INTO TABLE Cons")
 
     //==============Scenario 1======================
+    /*
     println("Total Consumers in Branch1")
-    spark.sql("SELECT SUM(Count) FROM Branch JOIN Cons ON Branch.Beverage = Cons.Beverage WHERE Branch = 'Branch1'").show()
+    spark.sql("SELECT SUM(Count) FROM Branches JOIN Cons ON Branches.Beverage = Cons.Beverage WHERE Branch = 'Branch1'").show(/*number of rows*/)
     println("Total Consumers in Branch2")
-    spark.sql("SELECT SUM(Count) FROM Branch JOIN Cons ON Branch.Beverage = Cons.Beverage WHERE Branch = 'Branch2'").show()
-    //spark.sql("SELECT * FROM Cons").show(/*number of rows*/)
+    spark.sql("SELECT SUM(Count) FROM Branches JOIN Cons ON Branches.Beverage = Cons.Beverage WHERE Branch = 'Branch2'").show(/*number of rows*/)
+    */
+    //==============Scenario 2======================
+    println("Most consumed beverage in Branch1")
+    spark.sql("SELECT Branches.Beverage, SUM(Count) FROM Branches JOIN Cons ON Branches.Beverage = Cons.Beverage WHERE Branch = 'Branch1' GROUP BY Branches.Beverage ORDER BY SUM(Count) DESC").show(1)
+    println("Least consumed beverage in Branch2")
+    spark.sql("SELECT Branches.Beverage, SUM(Count) FROM Branches JOIN Cons ON Branches.Beverage = Cons.Beverage WHERE Branch = 'Branch2' GROUP BY Branches.Beverage ORDER BY SUM(Count) ASC").show(1)
+    /*
+    println("Average consumed beverage in Branch2")
+    spark.sql("SELECT * FROM")
+    */
   }
 }
