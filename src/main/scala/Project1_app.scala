@@ -19,10 +19,23 @@ object Project1_app {
     //spark.sql("LOAD DATA LOCAL INPATH 'input/kv1.txt' INTO TABLE src")
     //spark.sql("CREATE TABLE IF NOT EXISTS src (key INT,value STRING) USING hive")
 
-    //when creating a new table, change newone# otherwise an error will appear that table already exists.
+    //when creating a new table, change the name of the table otherwise an error will appear that table already exists.
 
-    spark.sql("create table newone2(Beverage String, Branch String) row format delimited fields terminated by ','");
-    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_Branch.txt' INTO TABLE newone2")
-    spark.sql("SELECT * FROM newone2").show(/*number of rows*/)
+    //table of Bev_Branch will be called Branch
+
+    //spark.sql("create table Branch(Beverage String, Branch String) row format delimited fields terminated by ','");
+    //spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_Branch.txt' INTO TABLE Branch")
+
+    //table of Bev_ConsCount will be called Cons
+
+    //spark.sql("create table Cons(Beverage String, Count Int) row format delimited fields terminated by ','");
+    //spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_Conscount.txt' INTO TABLE Cons")
+
+    //==============Scenario 1======================
+    println("Total Consumers in Branch1")
+    spark.sql("SELECT SUM(Count) FROM Branch JOIN Cons ON Branch.Beverage = Cons.Beverage WHERE Branch = 'Branch1'").show()
+    println("Total Consumers in Branch2")
+    spark.sql("SELECT SUM(Count) FROM Branch JOIN Cons ON Branch.Beverage = Cons.Beverage WHERE Branch = 'Branch2'").show()
+    //spark.sql("SELECT * FROM Cons").show(/*number of rows*/)
   }
 }
