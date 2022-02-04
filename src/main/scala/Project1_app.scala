@@ -76,8 +76,8 @@ object Project1_app {
     println("Beverages available in Branch 10")
     spark.sql("SELECT Beverage FROM Branches WHERE Branch = 'Branch10' GROUP BY Beverage").show()
     */
-    //println("Common Beverages in Branch 4 and Branch 7")
-
+    println("Common Beverages in Branch 4 and Branch 7")
+    spark.sql("SELECT Beverage FROM Branches WHERE").show()
     //============== Scenario 4 ======================
 
     //============== Scenario 5 ======================
