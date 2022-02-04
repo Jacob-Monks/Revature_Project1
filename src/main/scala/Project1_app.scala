@@ -21,13 +21,33 @@ object Project1_app {
 
     //when creating a new table, change the name of the table otherwise an error will appear that table already exists.
 
-    //table of Bev_Branch will be called Branches
+    //tables for each Bev_Branches file
+    //spark.sql("CREATE TABLE BranchA (Beverage String, Branch String) row format delimited fields terminated by ','")
+    //spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_BranchA.txt' INTO TABLE BranchA")
+    //spark.sql("SELECT * FROM BranchA").show()
+    //spark.sql("CREATE TABLE BranchB (Beverage String, Branch String) row format delimited fields terminated by ','")
+    //spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_BranchB.txt' INTO TABLE BranchB")
+    //spark.sql("SELECT * FROM BranchB").show()
+    //spark.sql("CREATE TABLE BranchC (Beverage String, Branch String) row format delimited fields terminated by ','")
+    //spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_BranchC.txt' INTO TABLE BranchC")
+    //spark.sql("SELECT * FROM BranchC").show()
 
+    //tables for each Bev_Conscount file
+    //spark.sql("CREATE TABLE ConsA (Beverage String, Count Int) row format delimited fields terminated by ','")
+    //spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_ConscountA.txt' INTO TABLE ConsA")
+    //spark.sql("SELECT * FROM ConsA").show()
+    //spark.sql("CREATE TABLE ConsB (Beverage String, Count Int) row format delimited fields terminated by ','")
+    //spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_ConscountB.txt' INTO TABLE ConsB")
+    //spark.sql("SELECT * FROM ConsB").show()
+    //spark.sql("CREATE TABLE ConsC (Beverage String, Count Int) row format delimited fields terminated by ','")
+    //spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_ConscountC.txt' INTO TABLE ConsC")
+    //spark.sql("SELECT * FROM ConsC").show()
+
+    //table of Bev_Branch will be called Branches
     //spark.sql("create table Branches(Beverage String, Branch String) row format delimited fields terminated by ','");
     //spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_Branch.txt' INTO TABLE Branches")
 
     //table of Bev_ConsCount will be called Cons
-
     //spark.sql("create table Cons(Beverage String, Count Int) row format delimited fields terminated by ','");
     //spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_Conscount.txt' INTO TABLE Cons")
 
@@ -56,8 +76,8 @@ object Project1_app {
     println("Beverages available in Branch 10")
     spark.sql("SELECT Beverage FROM Branches WHERE Branch = 'Branch10' GROUP BY Beverage").show()
     */
-    println("Common Beverages in Branch 4 and Branch 7")
-    spark.sql("SELECT Beverage, Branch FROM Branches GROUP BY Beverage, Branch ORDER BY Branch").show()
+    //println("Common Beverages in Branch 4 and Branch 7")
+
     //============== Scenario 4 ======================
 
     //============== Scenario 5 ======================
