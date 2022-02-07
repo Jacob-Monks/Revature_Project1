@@ -90,7 +90,6 @@ object Project1_app {
     spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_Branch.txt' OVERWRITE INTO TABLE Branch_Part PARTITION(Branch = 'Branch8')")
     spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_Branch.txt' OVERWRITE INTO TABLE Branch_Part PARTITION(Branch = 'Branch9')")
     spark.sql("SELECT * FROM Branch_Part").show(100)
-
     //============== Scenario 5 ======================
 
     //============== Scenario 6 - Future Query ======================
