@@ -79,7 +79,18 @@ object Project1_app {
     spark.sql("(SELECT Beverage FROM Branches WHERE Branch = 'Branch4') INTERSECT (SELECT Beverage FROM Branches WHERE Branch = 'Branch7')").show(100)
     */
     //============== Scenario 4 ======================
- 
+    spark.sql("CREATE TABLE IF NOT EXISTS Branch_Part(Beverage String) PARTITIONED BY (Branch String) row format delimited fields terminated by ','")
+    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_Branch.txt' OVERWRITE INTO TABLE Branch_Part PARTITION(Branch = 'Branch1')")
+    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_Branch.txt' OVERWRITE INTO TABLE Branch_Part PARTITION(Branch = 'Branch2')")
+    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_Branch.txt' OVERWRITE INTO TABLE Branch_Part PARTITION(Branch = 'Branch3')")
+    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_Branch.txt' OVERWRITE INTO TABLE Branch_Part PARTITION(Branch = 'Branch4')")
+    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_Branch.txt' OVERWRITE INTO TABLE Branch_Part PARTITION(Branch = 'Branch5')")
+    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_Branch.txt' OVERWRITE INTO TABLE Branch_Part PARTITION(Branch = 'Branch6')")
+    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_Branch.txt' OVERWRITE INTO TABLE Branch_Part PARTITION(Branch = 'Branch7')")
+    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_Branch.txt' OVERWRITE INTO TABLE Branch_Part PARTITION(Branch = 'Branch8')")
+    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_Branch.txt' OVERWRITE INTO TABLE Branch_Part PARTITION(Branch = 'Branch9')")
+    spark.sql("SELECT * FROM Branch_Part").show(100)
+
     //============== Scenario 5 ======================
 
     //============== Scenario 6 - Future Query ======================
