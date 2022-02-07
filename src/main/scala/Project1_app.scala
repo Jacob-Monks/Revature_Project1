@@ -93,9 +93,11 @@ object Project1_app {
     spark.sql("SELECT * FROM Branch_Part").show(100)
     */
     //============== Scenario 5 ======================
-    spark.sql("ALTER TABLE branches Set TBLPROPERTIES('note' = 'comment')")
-    spark.sql("SELECT * FROM branches")
+    spark.sql("ALTER TABLE branches Set TBLPROPERTIES('My Notes' = 'Example Comment')")
+    spark.sql("SHOW TBLPROPERTIES branches").show()
     spark.sql("DESCRIBE FORMATTED branches").show()
+    //deleting a row
+    spark.sql("")
     //============== Scenario 6 - Future Query ======================
   }
 }
