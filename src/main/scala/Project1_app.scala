@@ -79,7 +79,7 @@ object Project1_app {
     spark.sql("(SELECT Beverage FROM Branches WHERE Branch = 'Branch4') INTERSECT (SELECT Beverage FROM Branches WHERE Branch = 'Branch7')").show(100)
     */
     //============== Scenario 4 ======================
-
+ 
     //============== Scenario 5 ======================
 
     //============== Scenario 6 - Future Query ======================
