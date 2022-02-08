@@ -94,15 +94,19 @@ object Project1_app {
     */
     //============== Scenario 5 ======================
     //adding a note
-    // spark.sql("ALTER TABLE branches Set TBLPROPERTIES('My Notes' = 'Example Comment')")
-    //spark.sql("SHOW TBLPROPERTIES branches").show()
-    //spark.sql("DESCRIBE FORMATTED branches").show()
+    /*
+    spark.sql("ALTER TABLE branches Set TBLPROPERTIES('My Notes' = 'Example Comment')")
+    spark.sql("SHOW TBLPROPERTIES branches").show()
+    spark.sql("DESCRIBE FORMATTED branches").show()
+    */
     //deleting a row
-    //spark.sql("CREATE TABLE IF NOT EXISTS staging_table(Beverage String, Branch String) row format delimited fields terminated by ','")
-    //spark.sql("INSERT INTO TABLE staging_table VALUES ('Special_Lite', 'Branch6')")
-    spark.sql("SELECT * FROM branches").show()
+    /*
+    spark.sql("CREATE TABLE IF NOT EXISTS staging_table(Beverage String, Branch String) row format delimited fields terminated by ','")
+    spark.sql("INSERT INTO TABLE staging_table VALUES ('Cold_LATTE', 'Branch1')")
+    spark.sql("SELECT * FROM branches ORDER BY branch, beverage").show()
     spark.sql("SELECT * FROM staging_table").show()
-    spark.sql("SELECT branches.Beverage, branches.Branch FROM staging_table RIGHT OUTER JOIN branches ON staging_table.Beverage = branches.beverage").show()
+    spark.sql("(SELECT * FROM branches) EXCEPT (SELECT * FROM staging_table) ORDER BY branch, beverage").show()
+    */
     //============== Scenario 6 - Future Query ======================
   }
 }
