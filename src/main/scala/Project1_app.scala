@@ -56,7 +56,6 @@ object Project1_app {
       val sel = readLine()
       if (sel == "1") {
         //=========================== Scenario 1 ======================
-
         println("Total Consumers in Branch1")
         println("Please wait a moment...")
         spark.sql(
@@ -75,36 +74,33 @@ object Project1_app {
       }
       else if (sel == "2") {
         //============================ Scenario 2 ======================
-
         println("Most consumed beverage in Branch1")
         println("Please wait a moment...")
         spark.sql(
           """
-            |SELECT Branches.Beverage, SUM(Count) AS Total Sold
+            |SELECT Branches.Beverage, SUM(Count) AS Total_Sold
             |FROM Branches JOIN Cons ON Branches.Beverage = Cons.Beverage
             |WHERE Branch = 'Branch1' GROUP BY Branches.Beverage ORDER BY SUM(Count) DESC
             |""".stripMargin).show(1)
         println("Least consumed beverage in Branch2")
         spark.sql(
           """
-            |SELECT Branches.Beverage, SUM(Count) AS Total Sold
+            |SELECT Branches.Beverage, SUM(Count) AS Total_Sold
             |FROM Branches JOIN Cons ON Branches.Beverage = Cons.Beverage
             |WHERE Branch = 'Branch2' GROUP BY Branches.Beverage ORDER BY SUM(Count) ASC
             |""".stripMargin).show(1)
         println("Average consumed beverage in Branch2")
         spark.sql(
           """
-            |SELECT AVG(Consumed) AS Average
+            |SELECT ROUND(AVG(Consumed), 2) AS Average
             |FROM
-            |(SELECT Branches.Beverage, ROUND(SUM(Count), 2) AS Consumed
+            |(SELECT Branches.Beverage, SUM(Count) AS Consumed
             |FROM Branches JOIN Cons ON Branches.Beverage = Cons.Beverage
             |WHERE Branch = 'Branch2' GROUP BY Branches.Beverage)
             |""".stripMargin).show()
-
       }
       else if (sel == "3") {
         //============================= Scenario 3 ======================
-
         println("Beverages available in Branch 1")
         println("Please wait a moment...")
         spark.sql(
@@ -133,7 +129,6 @@ object Project1_app {
             |(SELECT Beverage FROM Branches
             |WHERE Branch = 'Branch7')
             |""".stripMargin).show(100)
-
       }
       else if (sel == "4") {
         //============================== Scenario 4 ======================
@@ -214,7 +209,6 @@ object Project1_app {
             |EXCEPT
             |(SELECT * FROM staging_table) ORDER BY branch, beverage
             |""".stripMargin).show()
-
       }
       else if (sel == "6") {
         //=========================== Scenario 6 - Future Query ======================
