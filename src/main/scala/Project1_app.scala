@@ -14,10 +14,6 @@ object Project1_app {
       .getOrCreate()
     spark.sparkContext.setLogLevel("ERROR")
     println("created spark session\n\nWelcome to the Beverage Market Analytics Service!\n\n")
-    //spark.sql("CREATE TABLE IF NOT EXISTS src (key INT, value STRING) USING hive")
-    //spark.sql("CREATE TABLE IF NOT EXISTS src(key INT, value STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY ‘,’ STORED AS TEXTFILE")
-    //spark.sql("LOAD DATA LOCAL INPATH 'input/kv1.txt' INTO TABLE src")
-    //spark.sql("CREATE TABLE IF NOT EXISTS src (key INT,value STRING) USING hive")
 
     //tables for each Bev_Branches file
     //spark.sql("CREATE TABLE BranchA (Beverage String, Branch String) row format delimited fields terminated by ','")
@@ -49,7 +45,6 @@ object Project1_app {
     //spark.sql("create table Cons(Beverage String, Count Int) row format delimited fields terminated by ','");
     //spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_Conscount.txt' INTO TABLE Cons")
 
-
     while(check==1) {
       println("Please select an option.")
       println("1. See number of consumers")
@@ -63,6 +58,7 @@ object Project1_app {
         //=========================== Scenario 1 ======================
 
         println("Total Consumers in Branch1")
+        println("Please wait a moment...")
         spark.sql(
           """
             |SELECT SUM(Count)
@@ -81,16 +77,17 @@ object Project1_app {
         //============================ Scenario 2 ======================
 
         println("Most consumed beverage in Branch1")
+        println("Please wait a moment...")
         spark.sql(
           """
-            |SELECT Branches.Beverage, SUM(Count)
+            |SELECT Branches.Beverage, SUM(Count) AS Total Sold
             |FROM Branches JOIN Cons ON Branches.Beverage = Cons.Beverage
             |WHERE Branch = 'Branch1' GROUP BY Branches.Beverage ORDER BY SUM(Count) DESC
             |""".stripMargin).show(1)
         println("Least consumed beverage in Branch2")
         spark.sql(
           """
-            |SELECT Branches.Beverage, SUM(Count)
+            |SELECT Branches.Beverage, SUM(Count) AS Total Sold
             |FROM Branches JOIN Cons ON Branches.Beverage = Cons.Beverage
             |WHERE Branch = 'Branch2' GROUP BY Branches.Beverage ORDER BY SUM(Count) ASC
             |""".stripMargin).show(1)
@@ -99,7 +96,7 @@ object Project1_app {
           """
             |SELECT AVG(Consumed) AS Average
             |FROM
-            |(SELECT Branches.Beverage, SUM(Count) AS Consumed
+            |(SELECT Branches.Beverage, ROUND(SUM(Count), 2) AS Consumed
             |FROM Branches JOIN Cons ON Branches.Beverage = Cons.Beverage
             |WHERE Branch = 'Branch2' GROUP BY Branches.Beverage)
             |""".stripMargin).show()
@@ -109,6 +106,7 @@ object Project1_app {
         //============================= Scenario 3 ======================
 
         println("Beverages available in Branch 1")
+        println("Please wait a moment...")
         spark.sql(
           """
             |SELECT Beverage FROM Branches
@@ -189,8 +187,7 @@ object Project1_app {
             |LOAD DATA LOCAL INPATH 'input/Bev_Branch.txt'
             |OVERWRITE INTO TABLE Branch_Part PARTITION(Branch = 'Branch9')
             |""".stripMargin)
-        spark.sql("SELECT * FROM Branch_Part").show(100)
-
+        spark.sql("DESCRIBE FORMATTED branch_part").show()
       }
       else if (sel == "5") {
         //================================= Scenario 5 ======================
@@ -207,9 +204,9 @@ object Project1_app {
             |CREATE TABLE IF NOT EXISTS staging_table(Beverage String, Branch String)
             |row format delimited fields terminated by ','
             |""".stripMargin)
-        println("Record(s) to be deleted:")
-        spark.sql("INSERT INTO TABLE staging_table VALUES ('Cold_LATTE', 'Branch1')")
+        //spark.sql("INSERT INTO TABLE staging_table VALUES ('Cold_LATTE', 'Branch1')")
         spark.sql("SELECT * FROM branches ORDER BY branch, beverage").show()
+        println("Record(s) to be deleted:")
         spark.sql("SELECT * FROM staging_table").show()
         spark.sql(
           """
@@ -225,26 +222,25 @@ object Project1_app {
         println("1.\t2.\t3.\t4.\t5.\t6.\t7.\t8.\t9.")
         val branch: String = readLine()
         if (branch == "1"|| branch == "2"|| branch == "3"|| branch == "4"|| branch == "5"|| branch == "6"|| branch == "7"|| branch == "8"|| branch == "9") {
-          println(s"\nThese beverages are the most and least popular in Branch $branch as of late:")
+          println(s"\nThese beverages are the most likely to continue succeeding in Branch $branch:")
           println("Please wait a moment...")
           spark.sql(
             s"""
-               |SELECT Branches.Beverage, LAST(Count) AS Sold
+               |SELECT Branches.Beverage, LAST(Count) AS Latest_Sales
                |FROM Branches JOIN Cons ON Branches.Beverage = Cons.Beverage
                |WHERE Branch = 'Branch$branch' GROUP BY Branches.Beverage ORDER BY LAST(Count) DESC
-               |""".stripMargin).show(1)
+               |""".stripMargin).show(3)
+          println(s"\nThese beverages are the most likely to fail in Branch $branch:")
           spark.sql(
             s"""
-              |SELECT Branches.Beverage, LAST(Count) AS Sold
+              |SELECT Branches.Beverage, LAST(Count) AS Latest_Sales
               |FROM Branches JOIN Cons ON Branches.Beverage = Cons.Beverage
               |WHERE Branch = 'Branch$branch' GROUP BY Branches.Beverage ORDER BY LAST(Count) ASC
-              |""".stripMargin).show(1)
-
+              |""".stripMargin).show(3)
         }
         else {
           println("Invalid Selection, returning to options.")
         }
-
       }
       else {
         println("Please make a valid selection.")
