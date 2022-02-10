@@ -92,7 +92,7 @@ object Project1_app {
         println("Average consumed beverage in Branch2")
         spark.sql(
           """
-            |SELECT ROUND(AVG(Consumed), 2) AS Average
+            |SELECT ROUND(AVG(Consumed)) AS Average
             |FROM
             |(SELECT Branches.Beverage, SUM(Count) AS Consumed
             |FROM Branches JOIN Cons ON Branches.Beverage = Cons.Beverage
