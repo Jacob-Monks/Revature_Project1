@@ -22,6 +22,5 @@ object Project1_app {
     println("created spark session")
     UserLogin(spark)
     createDataframe(spark)
-
   }
 }

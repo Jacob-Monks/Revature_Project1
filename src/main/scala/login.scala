@@ -23,6 +23,5 @@ object login {
       println("Username does not exist")
       UserLogin(spark)
     }
-
   }
 }

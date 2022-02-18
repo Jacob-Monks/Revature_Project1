@@ -1,7 +1,11 @@
+import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.sql.{Dataset, SparkSession}
 import org.apache.spark.sql.Encoders._
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.functions.col
+import org.apache.spark.sql.functions.{col, input_file_name}
+import org.apache.spark.ml.feature._
+import org.apache.spark.ml.linalg.Vectors
+import org.apache.spark.ml.regression.LinearRegression
 
 
 case class cityAvgTemp(city: String, month: Int, day: Int, year: Int, avgtemperature: Float)
@@ -52,6 +56,33 @@ object DataframeCreation {
     ds2.show()
     ds3.show()
 
-  }
+    val indexer = new StringIndexer().setInputCol("City").setOutputCol("cityCode")
 
+    val indexed_ds1 = indexer.fit(ds1).transform(ds1)
+    indexed_ds1.show()
+
+    val dropped_ds1 = indexed_ds1.drop("City")
+    dropped_ds1.show()
+
+    val required_Features = new VectorAssembler().setInputCols(Array("Month", "Day", "Year", "AvgTemperature", "cityCode")).setOutputCol("features")
+    val output = required_Features.transform(dropped_ds1)
+    output.show()
+    output.printSchema()
+    val split = output.randomSplit(Array(0.7,0.3))
+    val train = split(0)
+    val test = split(1)
+    val trainRows = train.count()
+    val testRows = test.count()
+    println("Training Row: " + trainRows + " Testing Rows: " + testRows)
+    val trainML = train.select("features", "AvgTemperature")
+    trainML.show(false)
+    val lr = new LinearRegression().setLabelCol("AvgTemperature").setFeaturesCol("features").setMaxIter(10).setRegParam(0.3)
+    val testModel = lr.fit(trainML)
+    println ("Model trained!")
+    val testML = test.select("features", "AvgTemperature")
+    testML.show(false)
+    val prediction = testModel.transform(testML)
+    val predicted = prediction.select("features", "prediction", "AvgTemperature")
+    predicted.show(500)
+  }
 }
