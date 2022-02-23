@@ -13,7 +13,7 @@ object login {
       val dfuser = df4.select("*").where(df4("Username")===user)
       val status = dfuser.first.getString(2)
       if (user == dfuser.first.getString(0) & pass == dfuser.first.getString(1)) {
-        println("Welcome to the Climate Analysis Tool")
+        println("\nWelcome to the Climate Analysis Tool")
         return status
       } else {
         println("Username/Password is incorrect.")
