@@ -1,7 +1,10 @@
 import scala.io.StdIn.{readLine, _}
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
+import scala.annotation.tailrec
+
 object login {
+  @tailrec
   def UserLogin(spark: SparkSession): String = {
     print("Please enter your credentials:\nUsername:\t")
     val user = readLine()

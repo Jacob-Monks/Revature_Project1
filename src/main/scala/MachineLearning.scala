@@ -21,7 +21,7 @@ object MachineLearning {
     val encoder3 = product[cityTemp]
 
     //create data frame for holding csv data
-    val df1 = spark.read.format("csv").option("header", "true").load("input/Cities_Full.csv")
+    val df1 = spark.read.format("csv").option("header", "true").load("input/cities.csv")
     df1.show(5)
     println(df1.count())
     println(df1.describe())
@@ -90,6 +90,9 @@ object MachineLearning {
     val testML = test.select("features", "AvgTemperature")
 
     //month, day, year, city code
+    //0 = Shanghai
+    //1 = Amsterdam
+    //2 = Anchorage
     val userInput = Vectors.dense(month,day,year,city)
 
     //check non truncated values
