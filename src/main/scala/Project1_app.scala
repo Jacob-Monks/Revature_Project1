@@ -8,6 +8,7 @@ import scala.io.StdIn._
 import java.util.InputMismatchException
 import DataframeCreation._
 import login._
+import MachineLearning2._
 
 import scala.annotation.tailrec
 import scala.sys.exit
@@ -34,21 +35,21 @@ object Project1_app {
       println("Please select an option.\n")
       if (statusSet == "admin")
       {
-        println("1) Average between years of temperature.\n2) Highest and lowest temperature of any given year." +
+        println("1) Highest and lowest temperature comparisons by month.\n2) Highest and lowest temperature of any given year." +
           "\n3) Pick a date in the future for average temperature guess.\n4) Average temp per year for each country compared to CO2 emissions." +
-          "\n5) Average temp per year for each country compared to GHG emissions.\n6) Highest and lowest temperature comparisons by month." +
-          "\n7) Exit Application.")
+          "\n5) Average temp per year for each country compared to GHG emissions.\n6) Average temperature over a period of time." +
+          "\n7) See prediction for temperature based on weather.\n8) Exit Application.")
         caseInt = getNumberInput
-        if (caseInt == 1 || caseInt == 2 || caseInt == 3 || caseInt == 4 || caseInt == 5 || caseInt == 6) {
+        if (caseInt == 1 || caseInt == 2 || caseInt == 3 || caseInt == 4 || caseInt == 5 || caseInt == 6 || caseInt == 7) {
           createDataframe(spark, caseInt)
-        } else if (caseInt == 7) {
+        } else if (caseInt == 8) {
           exit
         } else {
           println("Invalid input.")
         }
       }
       else if (statusSet == "user"){
-        println("1) Average between years of temperature.\n2) Highest and lowest temperature of any given year." +
+        println("1) Highest and lowest temperature comparisons by month.\n2) Highest and lowest temperature of any given year." +
           "\n3) Pick a date in the future for average temperature guess.\n4) Exit Application.")
         caseInt = getNumberInput
         if (caseInt == 1 || caseInt == 2 || caseInt == 3) {
@@ -66,7 +67,7 @@ object Project1_app {
   def getNumberInput: Int = {
     try {
       var inputInt = readInt()
-      while(inputInt < 1 || inputInt > 7) {
+      while(inputInt < 1 || inputInt > 8) {
         inputInt = readInt()
       }
       inputInt

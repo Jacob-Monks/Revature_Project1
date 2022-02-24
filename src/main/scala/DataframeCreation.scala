@@ -7,6 +7,7 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.{SparkConf, SparkContext}
 import MachineLearning._
+import MachineLearning2._
 import java.util.InputMismatchException
 import java.util.Scanner
 
@@ -23,10 +24,10 @@ object DataframeCreation {
     val df1 = spark.read.format("csv").option("header", "true").load("input/anchor_data.csv")
     //df1.show(5)
 
-    val df2 = spark.read.format("csv").option("header", "true").load("input/shang_data.csv")
+    val df2 = spark.read.format("csv").option("header", "true").load("input/nether_data.csv")
     //df2.show(5)
 
-    val df3 = spark.read.format("csv").option("header", "true").load("input/nether_data.csv")
+    val df3 = spark.read.format("csv").option("header", "true").load("input/shang_data.csv")
     //df3.show(5)
 
     try{
@@ -34,25 +35,26 @@ object DataframeCreation {
       i match {
         case 1 => // ========================================= Query 1 =================================================
 
-          println("Enter starting date in the format of YYYY-MM-DD")
-          val startDate = readLine()
-          println("Enter ending date in the format of YYYY-MM-DD")
-          val endDate = readLine()
-          println("Which City would you like to see?\n1. Shanghai\n2. Amsterdam\n3. Anchorage")
+          println("Pick a month of the year (e.g. January = 01)")
+          val month = readLine()
+          println("Pick a City to observe.\n1. Anchorage\n2. Amsterdam\n3. Shanghai")
           val city = readLine()
-          if (city == "a") {
-            val df1_avg = df1.select("*").where(df1("Date").between(startDate,endDate)).where("AvgTemperature != -99.0")
-            println("AvgTemperature:" + df1_avg.select(avg("AvgTemperature")).show())
-          }
-          else if (city == "b") {
-            val df2_avg = df2.select("*").where(df2("Date").between(startDate,endDate)).where("AvgTemperature != -99.0")
-            println("AvgTemperature:" + df2_avg.select(avg("AvgTemperature")).show())
-          }
-          else if (city == "c") {
-            val df3_avg = df3.select("*").where(df3("Date").between(startDate,endDate)).where("AvgTemperature != -99.0")
-            println("AvgTemperature:" + df3_avg.select(avg("AvgTemperature")).show())
-          }
-          else {
+          if (city == "1") {
+            val df1_MM = df1.select("*").where(s"month = $month").where("AvgTemperature != -99.0")
+            val df1_fix = df1_MM.withColumn("AvgTemperature",col("AvgTemperature").cast(FloatType))
+            df1_fix.groupBy("year").agg(max("AvgTemperature")).orderBy("year").show(26)
+            df1_fix.groupBy("year").agg(min("AvgTemperature")).orderBy("year").show(26)
+          } else if (city == "2") {
+            val df2_MM = df2.select("*").where(s"month = $month").where("AvgTemperature != -99.0")
+            val df2_fix = df2_MM.withColumn("AvgTemperature",col("AvgTemperature").cast(FloatType))
+            df2_fix.groupBy("year").agg(max("AvgTemperature")).orderBy("year").show(26)
+            df2_fix.groupBy("year").agg(min("AvgTemperature")).orderBy("year").show(26)
+          } else if (city == "3") {
+            val df3_MM = df3.select("*").where(s"month = $month").where("AvgTemperature != -99.0")
+            val df3_fix = df3_MM.withColumn("AvgTemperature",col("AvgTemperature").cast(FloatType))
+            df3_fix.groupBy("year").agg(max("AvgTemperature")).orderBy("year").show(26)
+            df3_fix.groupBy("year").agg(min("AvgTemperature")).orderBy("year").show(26)
+          } else {
             println("That is not a valid input.")
           }
 
@@ -114,28 +116,31 @@ object DataframeCreation {
 
         case 6 =>  // =========================================== Query 6 ==============================================
 
-          println("Pick a month of the year (e.g. January = 01)")
-          val month = readLine()
-          println("Pick a City to observe.\n1. Anchorage\n2. Amsterdam\n3. Shanghai")
+          println("Enter starting date in the format of YYYY-MM-DD")
+          val startDate = readLine()
+          println("Enter ending date in the format of YYYY-MM-DD")
+          val endDate = readLine()
+          println("Which City would you like to see?\n1. Shanghai\n2. Amsterdam\n3. Anchorage")
           val city = readLine()
           if (city == "1") {
-            val df1_MM = df1.select("*").where(s"month = $month").where("AvgTemperature != -99.0")
-            val df1_fix = df1_MM.withColumn("AvgTemperature",col("AvgTemperature").cast(FloatType))
-            df1_fix.groupBy("year").agg(max("AvgTemperature")).orderBy("year").show(26)
-            df1_fix.groupBy("year").agg(min("AvgTemperature")).orderBy("year").show(26)
-          } else if (city == "2") {
-            val df2_MM = df2.select("*").where(s"month = $month").where("AvgTemperature != -99.0")
-            val df2_fix = df2_MM.withColumn("AvgTemperature",col("AvgTemperature").cast(FloatType))
-            df2_fix.groupBy("year").agg(max("AvgTemperature")).orderBy("year").show(26)
-            df2_fix.groupBy("year").agg(min("AvgTemperature")).orderBy("year").show(26)
-          } else if (city == "3") {
-            val df3_MM = df3.select("*").where(s"month = $month").where("AvgTemperature != -99.0")
-            val df3_fix = df3_MM.withColumn("AvgTemperature",col("AvgTemperature").cast(FloatType))
-            df3_fix.groupBy("year").agg(max("AvgTemperature")).orderBy("year").show(26)
-            df3_fix.groupBy("year").agg(min("AvgTemperature")).orderBy("year").show(26)
-          } else {
+            val df1_avg = df1.select("*").where(df1("Date").between(startDate,endDate)).where("AvgTemperature != -99.0")
+            println("AvgTemperature:" + df1_avg.select(avg("AvgTemperature")).show())
+          }
+          else if (city == "2") {
+            val df2_avg = df2.select("*").where(df2("Date").between(startDate,endDate)).where("AvgTemperature != -99.0")
+            println("AvgTemperature:" + df2_avg.select(avg("AvgTemperature")).show())
+          }
+          else if (city == "3") {
+            val df3_avg = df3.select("*").where(df3("Date").between(startDate,endDate)).where("AvgTemperature != -99.0")
+            println("AvgTemperature:" + df3_avg.select(avg("AvgTemperature")).show())
+          }
+          else {
             println("That is not a valid input.")
           }
+
+        case 7 => // =========================================== Query 7 ==============================================
+
+          learnMachines2(spark)
       }
     } catch {
       case e: InputMismatchException => println("Non-Integer entered. Exiting menu")
