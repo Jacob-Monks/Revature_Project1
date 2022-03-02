@@ -2,16 +2,16 @@
 This project utilizes Spark, Hive, and Scala to implement some queries on a provided set of data for coffee sales. The Problem Scenarios below describe all of the queries that were implemented. For the future query, this project looks at the most recently recorded data in the dataset to make predictions about how well each beverage will perform in the next few months. The intention is to show the marketing team who would look at this data what the status is, so that they can make informed marketing decisions.
 
 ### Technology Used:
--Hive 2.3.8
--Spark 3.0.1
--Scala 2.11.12
--IntelliJ Community Version
+>Hive 2.3.8
+>Spark 3.0.1
+>Scala 2.11.12
+>IntelliJ Community Version
 
 ### Features:
 Query data in a variety of ways, including:
--filtering out unwanted data
--comparing datasets with joins and unions
--analyzing data in a way to make predictions and observe trends
+>filtering out unwanted data
+>comparing datasets with joins and unions
+>analyzing data in a way to make predictions and observe trends
 
 ### Getting Started:
 1. Enter the following git command in your terminal to clone this repository:
